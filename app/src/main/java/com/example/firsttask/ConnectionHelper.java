@@ -10,7 +10,7 @@ import java.sql.DriverManager;
 public class ConnectionHelper {
 
     String userName, userPassword, ip, port, dataBase;
-
+    Connection connection;
     @SuppressLint("NewApi")
     public Connection connectionClass()
     {
@@ -23,7 +23,7 @@ public class ConnectionHelper {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        Connection connection = null;
+
         String connectionURL = null;
         try
         {
