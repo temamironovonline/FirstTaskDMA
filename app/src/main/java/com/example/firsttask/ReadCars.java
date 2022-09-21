@@ -47,7 +47,6 @@ public class ReadCars extends AppCompatActivity {
                 //TextView showCarPrice = findViewById(R.id.showCarPrice);
                 //TableRow row = new TableRow(this);
                 TableRow row = (TableRow) LayoutInflater.from(this).inflate(R.layout.activity_readcars, null);
-
                 ((TextView)row.findViewById(R.id.showCarName)).setText(resultSet.getString(2));
                 ((TextView)row.findViewById(R.id.showCarColor)).setText(resultSet.getString(3));
                 ((TextView)row.findViewById(R.id.showCarPrice)).setText(resultSet.getString(4));
