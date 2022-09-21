@@ -2,6 +2,7 @@ package com.example.firsttask;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -32,10 +33,10 @@ public class MainActivity extends AppCompatActivity {
             EditText carColor = findViewById(R.id.carColor);
             EditText carPrice = findViewById(R.id.carPrice);
             Button addCarButton = findViewById(R.id.addButton);
+            Button readCarButton = findViewById(R.id.readButton);
             try{
                 ConnectionHelper connectionHelper = new ConnectionHelper();
                 connection = connectionHelper.connectionClass();
-
                 if(connection != null)
                 {
                     addCarButton.setOnClickListener(new View.OnClickListener() {
@@ -53,6 +54,14 @@ public class MainActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
 
+                        }
+                    });
+
+                    readCarButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(MainActivity.this, ReadCars.class);
+                            startActivity(intent);
                         }
                     });
                 }
