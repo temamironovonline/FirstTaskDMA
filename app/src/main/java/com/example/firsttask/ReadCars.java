@@ -1,8 +1,12 @@
 package com.example.firsttask;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -15,16 +19,34 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ReadCars extends AppCompatActivity {
-
+    private static String currentIdCar;
+    private static String currentNameCar;
+    private static String currentColorCar;
+    private static String currentPriceCar;
     Connection connection;
+
+
+    public static void getId(String[] array) {
+        array[0] = currentIdCar;
+        array[1] = currentNameCar;
+        array[2] = currentColorCar;
+        array[3] = currentPriceCar;
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_readcars);
+        setContentView(R.layout.activity_readcars2);
+        getListFromSQL();
+    }
+
+    public void getListFromSQL(){
         String query = String.format("select * from cars");
         Statement statement = null;
         try {
@@ -32,45 +54,38 @@ public class ReadCars extends AppCompatActivity {
             connection = connectionHelper.connectionClass();
             statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ResultSet resultSet = statement.executeQuery(query);
-            int columns = resultSet.getMetaData().getColumnCount();
-            resultSet.last();
-            int rows = resultSet.getRow();
-            resultSet.beforeFirst();
-            TableLayout tableLayout = findViewById(R.id.tablelayout);
-
+            ArrayList<Cars> dataCars = new ArrayList<Cars>();
             while (resultSet.next())
             {
-
-
-                //TextView showCarName = findViewById(R.id.showCarName);
-                //TextView showCarColor = findViewById(R.id.showCarColor);
-                //TextView showCarPrice = findViewById(R.id.showCarPrice);
-                //TableRow row = new TableRow(this);
-                TableRow row = (TableRow) LayoutInflater.from(this).inflate(R.layout.activity_readcars, null);
-                ((TextView)row.findViewById(R.id.showCarName)).setText(resultSet.getString(2));
-                ((TextView)row.findViewById(R.id.showCarColor)).setText(resultSet.getString(3));
-                ((TextView)row.findViewById(R.id.showCarPrice)).setText(resultSet.getString(4));
-
-                String SCN = resultSet.getString(2);
-                String SCC = resultSet.getString(3);
-                String SCP = resultSet.getString(4);
-                /*TextView showCarName = new TextView(this);
-                    showCarName.setText(SCN);
-                    showCarName.setTextSize(20);
-                TextView showCarColor = new TextView(this);
-                    showCarColor.setText(SCC);
-                    showCarColor.setTextSize(20);
-                TextView showCarPrice = new TextView(this);
-                    showCarPrice.setText(SCP);
-                    showCarPrice.setTextSize(20);*/
-
-
-                /*row.addView(showCarName);
-                row.addView(showCarColor);
-                row.addView(showCarPrice);*/
-                tableLayout.addView(row);
-
+                dataCars.add(new Cars(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4)));
             }
+            CarsAdapter carsAdapter = new CarsAdapter(this, dataCars);
+            ListView lv = (ListView) findViewById(R.id.lvMain);
+            lv.setAdapter(carsAdapter);
+
+            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    try {
+                        resultSet.beforeFirst();
+                        while(resultSet.next())
+                        {
+                            if (resultSet.getRow() == position+1)
+                            {
+                                currentIdCar = resultSet.getString(1);
+                                currentNameCar = resultSet.getString(2);
+                                currentColorCar = resultSet.getString(3);
+                                currentPriceCar = resultSet.getString(4);
+                                break;
+                            }
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    Intent intent = new Intent(ReadCars.this, updateDeleteCars.class);
+                    startActivity(intent);
+                }
+            });
         } catch (SQLException e) {
             e.printStackTrace();
         }

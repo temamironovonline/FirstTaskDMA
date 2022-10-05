@@ -3,18 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ReadCars">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:orientation="horizontal"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         tools:ignore="MissingConstraints">
         <TableLayout
             android:id="@+id/tablelayout"
-            android:gravity="top|center"
             android:layout_height="wrap_content"
             android:layout_width="fill_parent">
             <TableRow
@@ -32,7 +30,8 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.022"
                     android:paddingRight="50dp"
-                    android:paddingBottom="20dp"/>
+                    android:paddingBottom="20dp"
+                    />
 
                 <TextView
                     android:id="@+id/showCarColor"
@@ -63,7 +62,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.022"
                     android:paddingLeft="50dp"
-                    android:paddingBottom="20dp" />
+                    android:paddingBottom="20dp"/>
             </TableRow>
         </TableLayout>
 
