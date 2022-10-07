@@ -2,18 +2,57 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
+        android:id="@+id/linearLayout1"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
         tools:ignore="MissingConstraints">
 
+        <EditText
+            android:id="@+id/search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="Поиск по названию автомобиля" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Сортировка по цене"
+            android:layout_margin="5dp"/>
+
+        <Spinner
+            android:id="@+id/sortingPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Сортировка по цвету"
+            android:layout_margin="5dp"/>
+        <Spinner
+            android:id="@+id/sortingColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/clearButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Очистить" />
+
         <ListView
             android:id="@+id/lvMain"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"></ListView>
+            android:layout_height="642dp"
+            android:layout_weight="1">
+
+        </ListView>
     </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

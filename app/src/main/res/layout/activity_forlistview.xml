@@ -7,62 +7,55 @@
 
     <LinearLayout
         android:orientation="horizontal"
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:ignore="MissingConstraints">
         <TableLayout
             android:id="@+id/tablelayout"
             android:layout_height="wrap_content"
-            android:layout_width="fill_parent">
+            android:layout_width="match_parent">
             <TableRow
-                >
+                android:id="@+id/tableRow"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
                 <TextView
                     android:id="@+id/showCarName"
-                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Марка"
                     android:textSize="20dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.045"
+                    app:layout_constraintEnd_toStartOf="@id/showCarColor"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.022"
-                    android:paddingRight="50dp"
-                    android:paddingBottom="20dp"
                     />
 
                 <TextView
                     android:id="@+id/showCarColor"
-                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Цвет"
                     android:textSize="20dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.2"
+                    app:layout_constraintEnd_toStartOf="@id/showCarPrice"
                     app:layout_constraintStart_toEndOf="@+id/showCarName"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.022"
-                    android:paddingLeft="50dp"
-                    android:paddingRight="50dp"
-                    android:paddingBottom="20dp"/>
+                    />
 
                 <TextView
                     android:id="@+id/showCarPrice"
-                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Цена"
                     android:textSize="20dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.327"
                     app:layout_constraintStart_toEndOf="@+id/showCarColor"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.022"
-                    android:paddingLeft="50dp"
-                    android:paddingBottom="20dp"/>
+                    />
             </TableRow>
         </TableLayout>
 
