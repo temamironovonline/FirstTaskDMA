@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundPages"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
@@ -17,38 +18,50 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:hint="@string/searchByCarName"
+            android:importantForAutofill="no"
             android:inputType="textPersonName"
-            android:hint="Поиск по названию автомобиля" />
+            android:textColor="@color/forText"
+            android:textColorHint="#757575" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Сортировка по цене"
+            android:text="@string/sortByPrice"
+            android:textColor="@color/forText"
             android:layout_margin="5dp"/>
 
         <Spinner
             android:id="@+id/sortingPrice"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            tools:ignore="SpeakableTextPresentCheck" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Сортировка по цвету"
+            android:text="@string/groupByColor"
+            android:textColor="@color/forText"
             android:layout_margin="5dp"/>
+
         <Spinner
             android:id="@+id/sortingColor"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="@color/forText"
+            android:minHeight="48dp"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <Button
             android:id="@+id/clearButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Очистить" />
+            android:text="@string/clearButton" />
 
         <ListView
             android:id="@+id/lvMain"
             android:layout_width="match_parent"
-            android:layout_height="642dp"
+            android:layout_height="0dp"
+            android:textColor="@color/forText"
             android:layout_weight="1">
 
         </ListView>

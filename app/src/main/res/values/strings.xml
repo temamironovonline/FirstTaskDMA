@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">FirstTask</string>
+    <string name="brand">Марка автомобиля</string>
+    <string name="color">Цвет автомобиля</string>
+    <string name="price">Цена автомобиля</string>
+    <string name="searchByCarName">Поиск по названию автомобиля</string>
+    <string name="sortByPrice">Сортировка по цене</string>
+    <string name="groupByColor">Группировка по цвету</string>
+    <string name="clearButton">Очистить</string>
+    <string name="updateButton">Обновить</string>
+    <string name="deleteButton">Удалить</string>
+    <string name="photoCar">Фотография автомобиля</string>
+    <string name="addButton">Добавить</string>
+    <string name="readButton">Вывести</string>
+
 </resources>

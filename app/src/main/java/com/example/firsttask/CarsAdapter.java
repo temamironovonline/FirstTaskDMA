@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -47,6 +48,7 @@ public class CarsAdapter extends BaseAdapter {
         ((TextView) view.findViewById(R.id.showCarName)).setText(c.nameCar);
         ((TextView) view.findViewById(R.id.showCarColor)).setText(c.colorCar);
         ((TextView) view.findViewById(R.id.showCarPrice)).setText(c.priceCar);
+        ((ImageView) view.findViewById(R.id.imageView)).setImageBitmap(c.photoCar);
 
         return view;
     }

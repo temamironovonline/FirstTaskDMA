@@ -2,15 +2,19 @@ package com.example.firsttask;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,6 +23,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Objects;
 
 
@@ -27,20 +32,22 @@ public class ReadCars extends AppCompatActivity {
     private static String currentNameCar;
     private static String currentColorCar;
     private static String currentPriceCar;
+    private static Bitmap currentPhotoCar;
 
-    String query = "select * from cars"; // Переменная, по которой осуществляются все запросы
+    String query = "select *, convert(varchar(max), photo_car) from cars"; // Переменная, по которой осуществляются все запросы
     EditText searchDataChangeName; // Объект, предназначенный для поиска данных в БД по названию автомобиля
     ListView mainListData; // Основной список, в котором выводятся данные из БД
     ArrayList<String> SortColor; // Список для хранения цветов автомобилей из БД
     String[] arraySpinnerPrice; // Массив для хранения методов сортировке по цене
-    int currentPriceSort;
-    String currentColorSort = "";
+    int currentPriceSort; // Хранение данных о выбранной сортировке по цене
+    String currentColorSort = ""; // Хранение данных о выбранном цвете
 
-    public static void getId(String[] array) {
+    public static Bitmap getId(String[] array) {
         array[0] = currentIdCar;
         array[1] = currentNameCar;
         array[2] = currentColorCar;
         array[3] = currentPriceCar;
+        return currentPhotoCar;
     }
 
 
@@ -52,6 +59,7 @@ public class ReadCars extends AppCompatActivity {
         getListFromSQL();
         forSpinnerPriceChanged(sortingDataByPrice());
         forSpinnerColorChanged(sortingDataByColor(SortColor));
+        forClearButton(sortingDataByPrice(), sortingDataByColor(SortColor));
 
     }
 
@@ -63,10 +71,10 @@ public class ReadCars extends AppCompatActivity {
                 currentColorSort = String.valueOf(parentView.getItemAtPosition(position));
                 if (currentColorSort.equals("Нет")) currentColorSort = "";
                 if (currentPriceSort == 0)
-                    query = String.format("select * from cars where NAME_CAR like '%s%%' and COLOR_CAR like '%s%%'", searchDataChangeName.getText().toString(), currentColorSort);
+                    query = String.format("select *, convert(varchar(max), photo_car) from cars where NAME_CAR like '%s%%' and COLOR_CAR like '%s%%'", searchDataChangeName.getText().toString(), currentColorSort);
                 else if (currentPriceSort == 1)
-                    query = String.format("select * from cars where NAME_CAR like '%s%%' and COLOR_CAR like '%s%%' Order by CAR_PRICE asc", searchDataChangeName.getText().toString(), currentColorSort);
-                else query = String.format("select * from cars where NAME_CAR like '%s%%' and COLOR_CAR like '%s%%' Order by CAR_PRICE desc", searchDataChangeName.getText().toString(), currentColorSort);
+                    query = String.format("select *, convert(varchar(max), photo_car) from cars where NAME_CAR like '%s%%' and COLOR_CAR like '%s%%' Order by CAR_PRICE asc", searchDataChangeName.getText().toString(), currentColorSort);
+                else query = String.format("select *, convert(varchar(max), photo_car) from cars where NAME_CAR like '%s%%' and COLOR_CAR like '%s%%' Order by CAR_PRICE desc", searchDataChangeName.getText().toString(), currentColorSort);
                 getListFromSQL();
             }
 
@@ -85,10 +93,10 @@ public class ReadCars extends AppCompatActivity {
                 currentPriceSort = parentView.getSelectedItemPosition();
                 if (currentColorSort.equals("Нет")) currentColorSort = "";
                 if (currentPriceSort == 0)
-                    query = String.format("select * from cars where NAME_CAR like '%s%%' and COLOR_CAR like '%s%%'", searchDataChangeName.getText().toString(), currentColorSort);
+                    query = String.format("select *, convert(varchar(max), photo_car) from cars where NAME_CAR like '%s%%' and COLOR_CAR like '%s%%'", searchDataChangeName.getText().toString(), currentColorSort);
                 else if (currentPriceSort == 1)
-                    query = String.format("select * from cars where NAME_CAR like '%s%%' and COLOR_CAR like '%s%%' Order by CAR_PRICE asc", searchDataChangeName.getText().toString(), currentColorSort);
-                else query = String.format("select * from cars where NAME_CAR like '%s%%' and COLOR_CAR like '%s%%' Order by CAR_PRICE desc", searchDataChangeName.getText().toString(), currentColorSort);
+                    query = String.format("select *, convert(varchar(max), photo_car) from cars where NAME_CAR like '%s%%' and COLOR_CAR like '%s%%' Order by CAR_PRICE asc", searchDataChangeName.getText().toString(), currentColorSort);
+                else query = String.format("select *, convert(varchar(max), photo_car) from cars where NAME_CAR like '%s%%' and COLOR_CAR like '%s%%' Order by CAR_PRICE desc", searchDataChangeName.getText().toString(), currentColorSort);
                 getListFromSQL();
             }
 
@@ -99,7 +107,6 @@ public class ReadCars extends AppCompatActivity {
 
         });
     }
-
     public void forTextChanged()
     {
         searchDataChangeName = findViewById(R.id.search);
@@ -108,10 +115,10 @@ public class ReadCars extends AppCompatActivity {
                 public void afterTextChanged(Editable s) {
                     if (currentColorSort.equals("Нет")) currentColorSort = "";
                     if (currentPriceSort == 0)
-                        query = String.format("select * from cars where NAME_CAR like '%s%%' and COLOR_CAR like '%s%%'", searchDataChangeName.getText().toString(), currentColorSort);
+                        query = String.format("select *, convert(varchar(max), photo_car) from cars where NAME_CAR like '%s%%' and COLOR_CAR like '%s%%'", searchDataChangeName.getText().toString(), currentColorSort);
                     else if (currentPriceSort == 1)
-                        query = String.format("select * from cars where NAME_CAR like '%s%%' and COLOR_CAR like '%s%%' Order by CAR_PRICE asc", searchDataChangeName.getText().toString(), currentColorSort);
-                    else query = String.format("select * from cars where NAME_CAR like '%s%%' and COLOR_CAR like '%s%%' Order by CAR_PRICE desc", searchDataChangeName.getText().toString(), currentColorSort);
+                        query = String.format("select *, convert(varchar(max), photo_car) from cars where NAME_CAR like '%s%%' and COLOR_CAR like '%s%%' Order by CAR_PRICE asc", searchDataChangeName.getText().toString(), currentColorSort);
+                    else query = String.format("select *, convert(varchar(max), photo_car) from cars where NAME_CAR like '%s%%' and COLOR_CAR like '%s%%' Order by CAR_PRICE desc", searchDataChangeName.getText().toString(), currentColorSort);
                     getListFromSQL();
                 }
 
@@ -138,6 +145,7 @@ public class ReadCars extends AppCompatActivity {
                             currentNameCar = resultSet.getString(2);
                             currentColorCar = resultSet.getString(3);
                             currentPriceCar = resultSet.getString(4);
+                            currentPhotoCar = getImgBitmap(resultSet.getString(6));
                             break;
                         }
                     }
@@ -154,22 +162,37 @@ public class ReadCars extends AppCompatActivity {
         arraySpinnerPrice = new String[] {
                 "Нет", "По возрастанию", "По убыванию"
         };
-        Spinner s = (Spinner) findViewById(R.id.sortingPrice);
+        Spinner spinnerSortByPrice = (Spinner) findViewById(R.id.sortingPrice);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, arraySpinnerPrice);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        s.setAdapter(adapter);
-        return s;
+        spinnerSortByPrice.setAdapter(adapter);
+        return spinnerSortByPrice;
     }
 
     public Spinner sortingDataByColor(ArrayList<String> forSortingColor){
-        Spinner ss = (Spinner) findViewById(R.id.sortingColor);
+        Spinner spinnerSortByColor = (Spinner) findViewById(R.id.sortingColor);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, forSortingColor);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        ss.setAdapter(adapter);
+        spinnerSortByColor.setAdapter(adapter);
 
-        return ss;
+        return spinnerSortByColor;
+    }
+
+    public void forClearButton(Spinner forSortByPrice, Spinner forSortByColor){
+        Button clearButton = findViewById(R.id.clearButton);
+        clearButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                searchDataChangeName.setText("");
+                forSortByPrice.setSelection(0);
+                forSortByColor.setSelection(0);
+                query = String.format("select *, convert(varchar(max), photo_car) from cars where NAME_CAR like '%s%%'", searchDataChangeName.getText().toString());
+                getListFromSQL();
+            }
+        });
     }
 
 
@@ -188,8 +211,9 @@ public class ReadCars extends AppCompatActivity {
             ArrayList<Cars> dataCars = new ArrayList<Cars>();
 
             while (resultSet.next()) {
-                dataCars.add(new Cars(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4)));
-                boolean checkSame = true;
+               dataCars.add(new Cars(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), getImgBitmap(resultSet.getString(6))));
+
+               boolean checkSame = true;
                 for (int i = 0; i < SortColor.size(); i++)
                 {
                     if (Objects.equals(resultSet.getString(3), SortColor.get(i)))
@@ -210,5 +234,17 @@ public class ReadCars extends AppCompatActivity {
         catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private Bitmap getImgBitmap(String encodedImg) {
+        if (!encodedImg.equals("null")) {
+            byte[] bytes = new byte[0];
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                bytes = Base64.getDecoder().decode(encodedImg);
+            }
+            return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        }
+        return BitmapFactory.decodeResource(ReadCars.this.getResources(),
+                R.drawable.empty);
     }
 }
