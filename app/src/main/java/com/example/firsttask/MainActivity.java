@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
                     forCarColor.setText("");
                     forCarPrice.setText("");
                     carsImage.setImageResource(R.drawable.empty);
+                    encodedImage = null;
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
