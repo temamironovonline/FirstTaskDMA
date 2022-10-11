@@ -42,6 +42,7 @@ public class ReadCars extends AppCompatActivity {
     int currentPriceSort; // Хранение данных о выбранной сортировке по цене
     String currentColorSort = ""; // Хранение данных о выбранном цвете
 
+    //Открытый статический метод для передачи данных о конкретной записи на страницу с изменением или удалением записи
     public static Bitmap getId(String[] array) {
         array[0] = currentIdCar;
         array[1] = currentNameCar;
@@ -55,15 +56,15 @@ public class ReadCars extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_readcars2);
-        forTextChanged();
         getListFromSQL();
+        forTextChanged();
         forSpinnerPriceChanged(sortingDataByPrice());
         forSpinnerColorChanged(sortingDataByColor(SortColor));
         forClearButton(sortingDataByPrice(), sortingDataByColor(SortColor));
 
     }
 
-
+    //Метод на изменение значения в спиннере цвета
     public void forSpinnerColorChanged(Spinner forSortByColor){
         forSortByColor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -85,7 +86,7 @@ public class ReadCars extends AppCompatActivity {
 
         });
     }
-
+    //Метод на изменение значения в спиннере цены
     public void forSpinnerPriceChanged(Spinner forSortByPrice){
         forSortByPrice.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -107,6 +108,7 @@ public class ReadCars extends AppCompatActivity {
 
         });
     }
+    //Метод на изменение текста в TextView поиска записей по названию автомобиля
     public void forTextChanged()
     {
         searchDataChangeName = findViewById(R.id.search);
@@ -131,6 +133,7 @@ public class ReadCars extends AppCompatActivity {
 
     }
 
+    //Метод для перехода на конкретную запись
     public void forGoToListItem(ResultSet resultSet) {
         mainListData.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -158,6 +161,7 @@ public class ReadCars extends AppCompatActivity {
         });
     }
 
+    //Метод на создание спиннера для сортировки по цене
     public Spinner sortingDataByPrice(){
         arraySpinnerPrice = new String[] {
                 "Нет", "По возрастанию", "По убыванию"
@@ -170,6 +174,8 @@ public class ReadCars extends AppCompatActivity {
         return spinnerSortByPrice;
     }
 
+    //Метод на создание спиннера для группировки (раньше считалось сортировкой, но в последний день вспомнил, что
+    //это немного другое) по цвету
     public Spinner sortingDataByColor(ArrayList<String> forSortingColor){
         Spinner spinnerSortByColor = (Spinner) findViewById(R.id.sortingColor);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -180,6 +186,7 @@ public class ReadCars extends AppCompatActivity {
         return spinnerSortByColor;
     }
 
+    //Метод на кнопку очистки
     public void forClearButton(Spinner forSortByPrice, Spinner forSortByColor){
         Button clearButton = findViewById(R.id.clearButton);
         clearButton.setOnClickListener(new View.OnClickListener() {
@@ -196,6 +203,7 @@ public class ReadCars extends AppCompatActivity {
     }
 
 
+    //Главный метод
     public void getListFromSQL(){
         Connection connection;
         Statement statement = null;
@@ -204,15 +212,18 @@ public class ReadCars extends AppCompatActivity {
             connection = connectionHelper.connectionClass();
             statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
+            //Создание списка цветов автомобиля для группировки
             SortColor = new ArrayList<String>();
             SortColor.add("Нет");
 
             ResultSet resultSet = statement.executeQuery(query);
             ArrayList<Cars> dataCars = new ArrayList<Cars>();
 
+            //Заполнение ArrayList<Cars> данными из БД и SortColor цветами
             while (resultSet.next()) {
                dataCars.add(new Cars(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), getImgBitmap(resultSet.getString(6))));
 
+               //Цикл на проверку уже имеющихся значений в SortColor, чтобы не было повторений
                boolean checkSame = true;
                 for (int i = 0; i < SortColor.size(); i++)
                 {

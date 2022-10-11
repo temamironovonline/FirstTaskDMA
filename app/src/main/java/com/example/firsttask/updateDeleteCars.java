@@ -89,7 +89,7 @@ public class updateDeleteCars extends AppCompatActivity {
         }
         return null;
     }
-
+    //Метод для изменение записи в БД
     public void updateDataButton(){
         Button updateCarInfo = findViewById(R.id.updateCarInfo);
         updateCarInfo.setOnClickListener(new View.OnClickListener() {
@@ -109,7 +109,7 @@ public class updateDeleteCars extends AppCompatActivity {
             }
         });
     }
-
+    //Метод для удаления записи из БД
     public void deleteDataButton(){
         Button deleteCarInfo = findViewById(R.id.deleteCarInfo);
         deleteCarInfo.setOnClickListener(new View.OnClickListener() {
@@ -129,7 +129,7 @@ public class updateDeleteCars extends AppCompatActivity {
             }
         });
     }
-
+    //Главный метод
     public void updateDateSQL() {
         try{
             ConnectionHelper connectionHelper = new ConnectionHelper();

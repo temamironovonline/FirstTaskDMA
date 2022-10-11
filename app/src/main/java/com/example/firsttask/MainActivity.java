@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         checkConnection();
         addImage();
     }
-    public void checkConnection()
+    public void checkConnection() // Проверка подключения к БД
     {
         try{
             ConnectionHelper connectionHelper = new ConnectionHelper();
@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //Отдельный метод для вызова события на кнопку "Добавить запись"
     public void addDataButton(EditText forCarName, EditText forCarColor, EditText forCarPrice, String forCarImage){
         Button addCarButton = findViewById(R.id.addButton);
         addCarButton.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    //Отдельный метод для вызова события на кнопку "Вывести все записи"
     public void readDataButton(){
         Button readCarButton = findViewById(R.id.readButton);
         readCarButton.setOnClickListener(new View.OnClickListener() {
@@ -93,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //Метод для события при нажатии на изображение, чтобы его изменить
     public void addImage(){
 
         carsImage.setOnClickListener(v -> {
@@ -102,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
+    //Главный метод
     public void setTextToSQL() {
         carsImage = findViewById(R.id.carImage);
         carsImage.setImageResource(R.drawable.empty);
